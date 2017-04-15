@@ -1,7 +1,7 @@
 #!/usr/bin/python
 from sys import argv as arguments
 import urban_dictonary.urban_dict as urban_dict
-
+import lib.weather as weather
 # example betty.py hi
 
 #TODO
@@ -15,8 +15,18 @@ print('\n')
 #for testing ends here
 if len(arguments) <= 2:
 	print('Hi I am Betty Your command line assistant Still Under Development')
+	print('weather --> betty weather at location')
 #add help menu above and this should also launch on 0 argvs too 
 
+#Weather lib
+if arguments.index('weather')>-1:
+	#add condition if location wala
+	#prepositions = ['in','at','of']
+	if arguments.index('at')>-1:
+		weather.weather(arguments[3])
+	else :
+		print ('use betty weather at location')
+	#weather.weather()
 # making what is
 if len(arguments) >= 4:
 	if (arguments[1] == 'what' or arguments[1] == 'What') and arguments[2] == 'is' :
