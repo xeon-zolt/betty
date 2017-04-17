@@ -1,39 +1,90 @@
 #!/usr/bin/python
+import re
 from sys import argv as arguments
 import urban_dictonary.urban_dict as urban_dict
-import lib.weather as weather
 # example betty.py hi
 
 #TODO
+#make test cases
 #write down all todo here
 
+#BUG
+#./betty hi what is time weather 
+#./betty hi what is weather time far   
 
 #for testing comment them when using
 print ('Number of arguments:', len(arguments), 'arguments.')
 print ('Argument List:', (arguments))
 print('\n')
+#Replace 'line' by joining arguments(list) to String
+line = ' '.join(arguments[1:])
+print(line)
 #for testing ends here
-if len(arguments) <= 2:
-	print('Hi I am Betty Your command line assistant Still Under Development')
-	print('weather --> betty weather at location')
-#add help menu above and this should also launch on 0 argvs too 
 
-#Weather lib
-if arguments.index('weather')>-1:
-	#add condition if location wala
-	#prepositions = ['in','at','of']
-	if arguments.index('at')>-1:
-		weather.weather(arguments[3])
-	else :
-		print ('use betty weather at location')
-	#weather.weather()
-# making what is
-if len(arguments) >= 4:
-	if (arguments[1] == 'what' or arguments[1] == 'What') and arguments[2] == 'is' :
-		rest_of_len = len(arguments) - 3 # 1 = betty , 2 = what , 3 = is
-#why do i prefer tabs or spaces am i bad ? check google
-		word = [] 
-		for i in range(rest_of_len):
-			word.append(arguments[3+i])
-		urban_dict.urban_dict(' '.join(word)) # like betty.py what is fake news
+def weather_regex():
+    import lib.weather as weather 
+    print("weather is called")
+    regex = r"weather (of|at|in) "
+    if re.search(regex, line, re.M|re.I):
+        match = re.search(regex, line, re.M|re.I )
+        location = line[match.end():]
+        weather.weather(location)
+        #Called Weather API here usinng location
+
+def mean():
+    #print("Word mean is called")
+    regex = r"mean"
+    if re.search(regex, line, re.M|re.I):
+        match = re.search(regex, line, re.M|re.I )
+        i = match.start()-2
+        while(line[i]!=" "):
+            i=i-1
+        word = line[i+1:match.start()-1]
+        urban_dict.urban_dict(word) # like betty.py what is fake news
 		# urban_dictonary contains 4500 words in cvs file so so so 
+        #call Meaning API here using word
+
+
+def meaning():
+    #print("Word meaning is called")
+    regex = r"meaning (of|at|in) "
+    if re.search(regex, line, re.M|re.I):
+        match = re.search(regex, line, re.M|re.I )
+        word = line[match.end():]
+        urban_dict.urban_dict(word)
+        #call Meaning API here using word
+
+def time_regex():
+    import lib.time as time
+    time.time()
+    #call Time API here
+
+def movie():
+    print("Movie is called")
+    regex = r" movie "
+    if re.search(regex, line, re.M|re.I):
+        match = re.search(regex, line, re.M|re.I )
+        movie = line[match.end():]
+        print(movie)
+        #call Movie API hereusing movie
+    
+MODULES = {
+    "weather": weather_regex,
+    "mean":mean,
+    "means":mean,
+    "meaning":meaning,
+    "time":time_regex,
+    "movie":movie
+     }
+
+regex = r"(( weather )|( meaning )|( mean)|( means)|( time)|( movie ))"
+if re.search(regex, line, re.M|re.I):
+    match = re.search(regex, line, re.M|re.I )
+    MODULES[match.group().strip().lower()]()
+else:
+    print("MODULE Not Found")
+    
+
+'''
+		
+'''
