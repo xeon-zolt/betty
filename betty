@@ -5,8 +5,8 @@ import urban_dictonary.urban_dict as urban_dict
 # example betty.py hi
 
 #TODO
-#make test cases
-#write down all todo here
+# make test cases
+# add ? support in regex 
 
 #BUG
 #./betty hi what is time weather 
@@ -85,6 +85,3 @@ else:
     print("MODULE Not Found")
     
 
-'''
-		
-'''
