@@ -68,16 +68,20 @@ def movie():
         print(movie)
         #call Movie API hereusing movie
     
+def lock_regex():
+    import lib.lock as lock
+    lock.lock()
 MODULES = {
     "weather": weather_regex,
     "mean":mean,
     "means":mean,
     "meaning":meaning,
+    "lock":lock_regex,
     "time":time_regex,
     "movie":movie
      }
 
-regex = r"(( weather )|( meaning )|( mean)|( means)|( time)|( movie ))"
+regex = r"(( weather )|( meaning )|( mean)|( means)|(lock)|( time)|( movie ) )"
 if re.search(regex, line, re.M|re.I):
     match = re.search(regex, line, re.M|re.I )
     MODULES[match.group().strip().lower()]()
