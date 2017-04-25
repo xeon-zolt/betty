@@ -6,11 +6,11 @@ import urban_dictonary.urban_dict as urban_dict
 
 #TODO
 # make test cases
-# add ? support in regex 
+# add ? support in regex
 
 #BUG
-#./betty hi what is time weather 
-#./betty hi what is weather time far   
+#./betty hi what is time weather
+#./betty hi what is weather time far
 
 #for testing comment them when using
 print ('Number of arguments:', len(arguments), 'arguments.')
@@ -22,7 +22,7 @@ print(line)
 #for testing ends here
 
 def weather_regex():
-    import lib.weather as weather 
+    import lib.weather as weather
     print("weather is called")
     regex = r"weather (of|at|in) "
     if re.search(regex, line, re.M|re.I):
@@ -41,7 +41,7 @@ def mean():
             i=i-1
         word = line[i+1:match.start()-1]
         urban_dict.urban_dict(word) # like betty.py what is fake news
-		# urban_dictonary contains 4500 words in cvs file so so so 
+		# urban_dictonary contains 4500 words in cvs file so so so
         #call Meaning API here using word
 
 
@@ -67,10 +67,51 @@ def movie():
         movie = line[match.end():]
         print(movie)
         #call Movie API hereusing movie
-    
+
 def lock_regex():
     import lib.lock as lock
     lock.lock()
+
+def diceroll_regex():
+    import lib.dice_roll as roll
+    roll.roll()
+
+def speedtest_regex():
+    print("Speedtest called")
+    import lib.speedtest as speedtest
+    speedtest.test()
+
+def help():
+    print("Greeting User, I am Betty")
+    print("I will respond to Your commands")
+    print("For Example \n 'Betty what is the time' \n 'Betty tell me about weather in delhi'")
+
+def howareyou():
+    import random
+    n = random.randint(1,2)
+    if(n == 1):
+        print("Hello Human , I am feeling Good \n Try asking me something")
+    else:
+        print("Why do you Care Human... Just Get the Shit done")
+
+'''
+def sayNumber(num):
+    import inflect
+    p = inflect.engine()
+    print(p.number_to_words(num))
+
+def rock_paper_scissors_regex():
+    import rock_paper_scissors as rps
+    human = (str)input("Choose rock , paper or Scissor")
+    if(human.lower()[0:2] == "ro"):
+        rps.play(1)
+    elif(human.lower()[0:2] == "pa"):
+        rps.play(2)
+    elif(human.lower()[0:2] == "sc"):
+        rps.play(3)
+    else:
+        print("OOps! Invalid Choice")
+'''
 MODULES = {
     "weather": weather_regex,
     "mean":mean,
@@ -78,14 +119,21 @@ MODULES = {
     "meaning":meaning,
     "lock":lock_regex,
     "time":time_regex,
+    "dice":diceroll_regex,
+    "speedtest":speedtest_regex,
+    "help":help,
+    "how are you":howareyou,
+    #"saynumber":sayNumber,
+    "speed":speedtest_regex,
+    #"rock":rock_paper_scissors_regex,
+    #"paper":rock_paper_scissors_regex,
+    #"scissor":rock_paper_scissors_regex,
     "movie":movie
      }
-
-regex = r"(( weather )|( meaning )|( mean)|( means)|(lock)|( time)|( movie ) )"
+#|(rock)|(paper)|(scissor)
+regex = r"(( weather )|( meaning )|( mean)|( means)|(lock)|(dice)|(speed)|(speedtest)|(help)|(how are you)|(saynumber)|( time)|( movie ) )"
 if re.search(regex, line, re.M|re.I):
     match = re.search(regex, line, re.M|re.I )
     MODULES[match.group().strip().lower()]()
 else:
     print("MODULE Not Found")
-    
-
